@@ -4,12 +4,13 @@ import axios from 'axios';
 export const REQUEST_COLLECTION = 'REQUEST_COLLECTION';
 export const FILTER_BY_OWNED = 'FILTER_BY_OWNED';
 export const RESET_FILTERS = 'RESET_FILTERS';
+export const FILTER_BY_WISHLIST = 'FILTER_BY_WISHLIST';
 
-//const requestUrl = 'https://www.boardgamegeek.com/xmlapi2/collection?username=recreationMyth&own=1&brief=1';
-const requestUrl = 'https://bgg-json.azurewebsites.net/collection/edwalter';
+const BASE_URL = 'https://bgg-json.azurewebsites.net/collection/';
 
-export function requestCollection(collection) {
-  const request = axios.get(requestUrl);
+export function requestCollection(username) {
+  const request = axios.get(`${BASE_URL}${username}`);
+  console.log(request);
   return {
     type: REQUEST_COLLECTION,
     payload: request
@@ -22,6 +23,16 @@ export function filterByOwned(collection) {
   })
   return {
     type: FILTER_BY_OWNED,
+    payload: filteredCollection
+  }
+}
+
+export function filterByWishlist(collection) {
+  const filteredCollection = _.filter(collection, game => {
+    return game.wishList === true;
+  })
+  return {
+    type: FILTER_BY_WISHLIST,
     payload: filteredCollection
   }
 }
