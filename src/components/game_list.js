@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestCollection, filterByOwned, resetFilters, filterByWishlist } from '../actions';
+import { requestCollection, setCurrentUser } from '../actions';
+import UserInfo from './user_info';
 import FilterButton from './filter_button';
 import GameTable from './game_table';
 
@@ -9,41 +10,19 @@ import '../style/game_list.css';
 class GameList extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {user: ''};
-
-    this.filterByOwned = this.filterByOwned.bind(this);
-    this.filterByWishlist = this.filterByWishlist.bind(this);
-    this.resetFilters = this.resetFilters.bind(this);
-  }
-
-  filterByOwned() {
-    this.props.filterByOwned(this.props.collection);
-    console.log("filtered - ", this.props.filteredCollection);
-  }
-
-  filterByWishlist() {
-    this.props.filterByWishlist(this.props.collection);
-  }
-
-  resetFilters() {
-    //this.props.resetFilters(this.props.collection);
-    this.props.requestCollection();
   }
 
   render() {
+    console.log(this.props);
     const collection = this.props.collection;
-    console.log(collection);
     if (collection === undefined || collection.length === 0) {
-      return <div>No games found!</div>
+      return <div>No colletion found for {this.props.user}!</div>
     }
 
     return (
       <div>
         <div className="row">
-          <div className="col-sm filters-container">
-            {this.state.user} - Showing {collection.length} games
-          </div>
+          <UserInfo user={this.props.currentUser} displayedCount={collection.length}/>
           <div className="col-sm filters">
             <span>Filters:</span>
             <FilterButton label="Owned"/>
@@ -61,8 +40,9 @@ class GameList extends Component {
 
 function mapStateToProps(state) {
   return {
-    collection: state.collection
+    collection: state.collection,
+    currentUser: state.currentUser
   };
 }
 
-export default connect(mapStateToProps, { requestCollection, filterByOwned, filterByWishlist, resetFilters })(GameList);
+export default connect(mapStateToProps, { requestCollection, setCurrentUser })(GameList);

@@ -6,7 +6,6 @@ import { RESET_FILTERS } from '../actions';
 export default function(state = {}, action) {
   switch (action.type) {
     case REQUEST_COLLECTION:
-      console.log(action);
       return action.payload.data;
     case FILTER_BY_OWNED:
       return action.payload;
