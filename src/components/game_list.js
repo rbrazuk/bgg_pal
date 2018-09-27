@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { requestCollection, filterByOwned, resetFilters, filterByWishlist } from '../actions';
+import FilterButton from './filter_button';
 
 import '../style/game_list.css';
 
@@ -60,9 +61,9 @@ class GameList extends Component {
           </div>
           <div className="col-sm filters">
             <span>Filters:</span>
-            <button className="btn btn-outline-secondary filters-button" onClick={this.filterByOwned}>Owned</button>
-            <button className="btn btn-outline-secondary filters-button" onClick={this.filterByWishlist}>Wishlist</button>
-            <button className="btn btn-outline-secondary filters-button" onClick={this.resetFilters}>reset</button>
+            <FilterButton label="Owned"/>
+            <FilterButton label="Wishlist"/>
+            <FilterButton label="Reset"/>
           </div>
         </div>
         <div className="row">
